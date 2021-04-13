@@ -1,14 +1,11 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require("path");
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const DependencyExtractionWebpackPlugin = require( '@wordpress/dependency-extraction-webpack-plugin' );
-const GoogleFontsPlugin = require("@beyonk/google-fonts-webpack-plugin")
-const webpackFonts = require("./webpack.fonts.json")
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = {
 	entry: {
-		"index": "./wordpress/index.tsx",
 		"logo-maker": "./src/index.tsx"
 	},
 	module: {
@@ -42,23 +39,27 @@ module.exports = {
 	output: {
 		// ...defaultConfig.output,
 		filename: "[name].js",
-		path: path.resolve(__dirname, "plugin_build"),
-		clean: true
+		path: path.resolve(__dirname, "pwa_build"),
+
 	},
 	devServer: {
 		writeToDisk: true,
+        contentBase: path.join(__dirname, 'pwa_build'),
+        compress: true,
 	},
 	plugins: [
-		new DependencyExtractionWebpackPlugin(),
 		new BundleAnalyzerPlugin({
 			analyzerMode: 'static'
 		}),
-		// new GoogleFontsPlugin({
-		// 	fonts: webpackFonts
-		// 	/* ...options */
-		// }),
 		new HtmlWebpackPlugin({
-			title: 'Output Management',
+			title: 'Progressive Web Application',
+            template: 'index.html'
 		}),
+        new WorkboxPlugin.GenerateSW({
+            // these options encourage the ServiceWorkers to get in there fast
+            // and not allow any straggling "old" SWs to hang around
+            clientsClaim: true,
+            skipWaiting: true,
+          }),
 	]
 };

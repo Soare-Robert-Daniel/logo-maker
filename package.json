@@ -7,6 +7,8 @@
     "start-plugin": "webpack --watch --mode development",
     "plugin-build": "webpack --mode production",
     "linux:make-zip": "npm run plugin-build && zip -r logo_maker_plugin.zip index.php plugin_build && mv logo_maker_plugin.zip development/",
+    "pwa:build": "webpack --config pwa.webpack.config.js",
+    "pwa:start": "http-server pwa_build",
     "create:font:config": "node development/createFontConfigFile.js",
     "gen-docs": "npx typedoc",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
@@ -78,6 +80,8 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-standard": "^4.1.0",
     "gh-pages": "^3.1.0",
+    "html-webpack-plugin": "^5.3.1",
+    "http-server": "^0.12.3",
     "postcss": "^8.2.10",
     "postcss-cli": "^8.3.1",
     "postcss-loader": "^5.2.0",
@@ -91,7 +95,8 @@
     "typescript": "^4.2.3",
     "webpack": "^5.30.0",
     "webpack-bundle-analyzer": "^4.4.0",
-    "webpack-cli": "^4.6.0"
+    "webpack-cli": "^4.6.0",
+    "workbox-webpack-plugin": "^6.1.5"
   },
   "browserslist": [
     "defaults",
